@@ -1,0 +1,11 @@
+# but what is it?
+
+Some convenience methods for Watir I use daily at work.
+
+They're not optimised for speed (yet) but for ease of use.
+
+
+## todo
+
+* tests (on their way)
+* better readme
