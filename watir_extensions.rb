@@ -30,15 +30,33 @@ module Watir
   class Browser
     # elements - plural name of the elements you're searching for i.e. :lis, :spans
     # id - id you're searching for
-    def getElementById(element, id )
+    # this method doesnt cache the results
+    def getElementById!(element, id )
       self.send(element).select { |el| el.id == id}.first
     end
 
+    # elements - plural name of the elements you're searching for i.e. :lis, :spans
+    # id - id you're searching for
+    # this method doesnt cache the results
+    def getElementById(element, id )
+      @id_element_cache ||= {}
+      @id_element_cache[element] ||=  self.send(element)
+      @id_element_cache[element].select { |el| el.id == id}.first
+    end
+
+    # elements - plural name of the elements you're searching for i.e. :lis, :spans
+    # class_name - css class name
+    # this method doesnt cache results
+    def getElementsByClassName(elements, class_name)
+      self.send(elements).to_a.select { |el| el.attribute_value('class') =~ /#{class_name}/ }
+    end
 
     # elements - plural name of the elements you're searching for i.e. :lis, :spans
     # class_name - css class name
     def getElementsByClassName(elements, class_name)
-      self.send(elements).to_a.select { |el| el.attribute_value('class') =~ /#{class_name}/ }
+      @class_element_cache ||= {}
+      @class_element_cache[elements] ||= self.send(elements).to_a
+      @class_element_cache[elements].select { |el| el.attribute_value('class') =~ /#{class_name}/ }
     end
 
   end
